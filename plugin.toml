@@ -1,0 +1,57 @@
+# ============================================================
+# Workspace Clean-Up Assistant
+# Манифест плагина для Noctalia Shell (v5+)
+# ============================================================
+
+# Обязательные метаданные (верхний уровень манифеста)
+id = "obloble/workspace-cleaner"
+name = "Workspace Clean-Up Assistant"
+author = "obloble"
+version = "1.0.0"
+
+# Максимальный уровень plugin API, который использует код плагина.
+# Плагин использует только базовые API: noctalia.log, noctalia.notify,
+# noctalia.runAsync, noctalia.json.decode, noctalia.setUpdateInterval.
+plugin_api = 3
+license = "MIT"
+icon = "broom"
+
+# Тип плагина задается секцией [[service]] ниже: headless-сервис без UI.
+description = """
+Headless-сервис, который периодически опрашивает композитор Niri \
+(niri msg -j windows) и мягко напоминает пользователю, если окно \
+терминала или браузера не в фокусе более 20 минут. Плагин никогда \
+не закрывает окна сам — только отправляет уведомление.
+"""
+tags = ["service", "niri", "productivity", "utility"]
+
+# ------------------------------------------------------------
+# Настройки плагина (раздел настроек в окне настроек Noctalia).
+# Значения читаются кодом через noctalia.getConfig().
+# ------------------------------------------------------------
+[[setting]]
+key = "poll_interval_sec"
+type = "int"
+label_key = "settings.poll_interval_sec.label"
+description_key = "settings.poll_interval_sec.description"
+default = 60
+min = 10
+max = 600
+
+[[setting]]
+key = "idle_timeout_min"
+type = "int"
+label_key = "settings.idle_timeout_min.label"
+description_key = "settings.idle_timeout_min.description"
+default = 20
+min = 1
+max = 240
+
+# ------------------------------------------------------------
+# Точка входа: headless фоновый сервис.
+# Хост вызывает глобальную функцию update() из init.luau
+# с интервалом, заданным через noctalia.setUpdateInterval().
+# ------------------------------------------------------------
+[[service]]
+id = "service"
+entry = "init.luau"
