@@ -1,0 +1,6 @@
+{
+  "settings.poll_interval_sec.label": "Polling interval (seconds)",
+  "settings.poll_interval_sec.description": "How often the service queries niri for the window list (10–600 s).",
+  "settings.idle_timeout_min.label": "Idle timeout (minutes)",
+  "settings.idle_timeout_min.description": "How long a watched window may stay unfocused before a reminder is sent (1–240 min)."
+}
