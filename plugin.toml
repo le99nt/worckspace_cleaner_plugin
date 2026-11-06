@@ -7,21 +7,24 @@
 id = "obloble/workspace-cleaner"
 name = "Workspace Clean-Up Assistant"
 author = "obloble"
-version = "1.0.0"
+version = "2.0.0"
 
 # Максимальный уровень plugin API, который использует код плагина.
 # Плагин использует только базовые API: noctalia.log, noctalia.notify,
-# noctalia.runAsync, noctalia.json.decode, noctalia.setUpdateInterval.
+# noctalia.runAsync, noctalia.json.decode, noctalia.setUpdateInterval,
+# noctalia.getConfig.
 plugin_api = 3
 license = "MIT"
 icon = "broom"
 
 # Тип плагина задается секцией [[service]] ниже: headless-сервис без UI.
 description = """
-Headless-сервис, который периодически опрашивает композитор Niri \
-(niri msg -j windows) и мягко напоминает пользователю, если окно \
-терминала или браузера не в фокусе более 20 минут. Плагин никогда \
-не закрывает окна сам — только отправляет уведомление.
+Headless-сервис: опрашивает композитор Niri (niri msg -j windows) и \
+напоминает об окнах из списка наблюдения, простаивающих без фокуса \
+дольше порога. Поддерживает повторные напоминания, тихие часы, \
+настраиваемый список приложений, ежедневную сводку и ОПЦИОНАЛЬНОЕ \
+автозакрытие окна после N напоминаний (по умолчанию выключено — \
+плагин только напоминает).
 """
 tags = ["service", "niri", "productivity", "utility"]
 
@@ -46,6 +49,53 @@ description_key = "settings.idle_timeout_min.description"
 default = 20
 min = 1
 max = 240
+
+# Повторные напоминания каждые N минут (0 = только одно на окно).
+[[setting]]
+key = "repeat_interval_min"
+type = "int"
+label_key = "settings.repeat_interval_min.label"
+description_key = "settings.repeat_interval_min.description"
+default = 0
+min = 0
+max = 240
+
+# Автозакрытие окна после N напоминаний (0 = выключено, по умолчанию).
+[[setting]]
+key = "auto_close_after_reminders"
+type = "int"
+label_key = "settings.auto_close_after_reminders.label"
+description_key = "settings.auto_close_after_reminders.description"
+default = 0
+min = 0
+max = 10
+
+# Список наблюдения: классы/заголовки через запятую (регистронезависимо).
+[[setting]]
+key = "watch_list"
+type = "string"
+label_key = "settings.watch_list.label"
+description_key = "settings.watch_list.description"
+default = "alacritty, kitty, foot, terminal, firefox, chromium, brave"
+
+# Тихие часы: -1 = выключено; диапазон может пересекать полночь.
+[[setting]]
+key = "quiet_start_hour"
+type = "int"
+label_key = "settings.quiet_start_hour.label"
+description_key = "settings.quiet_start_hour.description"
+default = -1
+min = -1
+max = 23
+
+[[setting]]
+key = "quiet_end_hour"
+type = "int"
+label_key = "settings.quiet_end_hour.label"
+description_key = "settings.quiet_end_hour.description"
+default = -1
+min = -1
+max = 23
 
 # ------------------------------------------------------------
 # Точка входа: headless фоновый сервис.

@@ -2,5 +2,15 @@
   "settings.poll_interval_sec.label": "Polling interval (seconds)",
   "settings.poll_interval_sec.description": "How often the service queries niri for the window list (10–600 s).",
   "settings.idle_timeout_min.label": "Idle timeout (minutes)",
-  "settings.idle_timeout_min.description": "How long a watched window may stay unfocused before a reminder is sent (1–240 min)."
+  "settings.idle_timeout_min.description": "How long a watched window may stay unfocused before the first reminder is sent (1–240 min).",
+  "settings.repeat_interval_min.label": "Repeat reminders (minutes)",
+  "settings.repeat_interval_min.description": "Send a follow-up reminder every N minutes until the window is focused again. 0 disables repeats (one reminder per window).",
+  "settings.auto_close_after_reminders.label": "Auto-close after N reminders",
+  "settings.auto_close_after_reminders.description": "Automatically close a window (niri msg action close-window) after N reminders. 0 disables auto-close — the plugin only reminds.",
+  "settings.watch_list.label": "Watch list",
+  "settings.watch_list.description": "Comma-separated app classes or title fragments to watch, e.g. 'alacritty, kitty, firefox'.",
+  "settings.quiet_start_hour.label": "Quiet hours — start (hour)",
+  "settings.quiet_start_hour.description": "No reminders (and no auto-close) starting from this hour. Use -1 to disable quiet hours.",
+  "settings.quiet_end_hour.label": "Quiet hours — end (hour)",
+  "settings.quiet_end_hour.description": "Quiet hours end at this hour. Use -1 to disable quiet hours. The range may cross midnight (e.g. 23 → 7)."
 }
